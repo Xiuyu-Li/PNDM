@@ -141,9 +141,10 @@ class Runner(object):
         config = self.config['Sample']
         mpi_rank = 0
         if config['mpi4py']:
-            from mpi4py import MPI
-            comm = MPI.COMM_WORLD
-            mpi_rank = comm.Get_rank()
+            # from mpi4py import MPI
+            # comm = MPI.COMM_WORLD
+            # mpi_rank = comm.Get_rank()
+            pass
 
         model = self.model
         device = self.device

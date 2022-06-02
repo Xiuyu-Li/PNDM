@@ -27,6 +27,7 @@ import torchvision.transforms as transforms
 import torchvision.transforms.functional as F
 from torchvision.datasets import CIFAR10
 from dataset.celeba import CelebA
+from dataset.artbench10 import artCIFAR10
 # from dataset.ffhq import FFHQ
 from dataset.lsun import LSUN
 from torch.utils.data import Subset
@@ -77,6 +78,18 @@ def get_dataset(args, config):
             os.path.join(os.getcwd(), "temp", "cifar10"),
             train=False,
             download=True,
+            transform=test_transform,
+        )
+    
+    elif config['dataset'] == "artCIFAR10":
+        dataset = artCIFAR10(
+            os.path.join(os.getcwd(), "temp", "artcifar10"),
+            train=True,
+            transform=tran_transform,
+        )
+        test_dataset = artCIFAR10(
+            os.path.join(os.getcwd(), "temp", "artcifar10"),
+            train=False,
             transform=test_transform,
         )
 
