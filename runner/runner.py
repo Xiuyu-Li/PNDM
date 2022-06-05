@@ -15,6 +15,7 @@
 import os
 import sys
 import time
+from collections import OrderedDict
 import torch as th
 import numpy as np
 import torch.optim as optimi
@@ -150,7 +151,15 @@ class Runner(object):
         device = self.device
         pflow = True if self.args.method == 'PF' else False
 
-        model.load_state_dict(th.load(self.args.model_path, map_location=device), strict=True)
+        state_dict = th.load(self.args.model_path, map_location=device)[0]
+        # new_state_dict = OrderedDict()
+        # for k, v in state_dict.items():
+        #     name = k[7:] # remove `module.`
+        #     new_state_dict[name] = v
+        # # load params
+        # model.load_state_dict(new_state_dict, strict=True)
+        model = th.nn.DataParallel(model)
+        model.load_state_dict(state_dict, strict=True)
         model.eval()
 
         n = config['batch_size']
